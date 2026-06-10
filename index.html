@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pankaj Kushwaha — WordPress Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0b0e14;
+    --surface:   #131720;
+    --card:      #181e2a;
+    --border:    #232b3e;
+    --accent:    #4f8ef7;
+    --accent2:   #a78bfa;
+    --green:     #34d399;
+    --text:      #e2e8f0;
+    --muted:     #8892a4;
+    --white:     #ffffff;
+    --radius:    14px;
+    --transition: .3s cubic-bezier(.4,0,.2,1);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 6vw;
+    background: rgba(11,14,20,.85);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-family: "Archivo Black", sans-serif; font-weight: 800; font-size: 1.15rem; color: var(--white); letter-spacing: -.02em; }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: .88rem; font-weight: 500; transition: color var(--transition); }
+  .nav-links a:hover { color: var(--white); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 6vw 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-glow {
+    position: absolute; top: -120px; right: -80px; width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(79,142,247,.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-glow2 {
+    position: absolute; bottom: 0; left: 10%; width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(167,139,250,.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-inner { max-width: 760px; position: relative; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(79,142,247,.1); border: 1px solid rgba(79,142,247,.25);
+    color: var(--accent); font-size: .78rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 100px; margin-bottom: 28px;
+  }
+  .hero-badge::before { content:''; width:8px; height:8px; border-radius:50%; background:var(--accent); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.3)} }
+
+  h1 {
+    font-family: "Archivo Black", sans-serif;
+    font-size: clamp(2.4rem, 6vw, 4.2rem);
+    font-weight: 800; line-height: 1.08; letter-spacing: -.03em;
+    color: var(--white); margin-bottom: 12px;
+  }
+  h1 .hl { background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+  .hero-sub { font-size: 1.1rem; color: var(--muted); max-width: 560px; margin-bottom: 40px; line-height: 1.8; }
+
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 56px; }
+  .btn-primary {
+    background: var(--accent); color: #fff; font-weight: 600; font-size: .9rem;
+    padding: 13px 28px; border-radius: 10px; text-decoration: none;
+    transition: background var(--transition), transform var(--transition), box-shadow var(--transition);
+    box-shadow: 0 4px 20px rgba(79,142,247,.35);
+  }
+  .btn-primary:hover { background:#3a7de0; transform:translateY(-2px); box-shadow:0 8px 30px rgba(79,142,247,.45); }
+  .btn-outline {
+    border: 1.5px solid var(--border); color: var(--text); font-weight: 600; font-size: .9rem;
+    padding: 13px 28px; border-radius: 10px; text-decoration: none;
+    transition: border-color var(--transition), color var(--transition), transform var(--transition);
+  }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); transform:translateY(-2px); }
+
+  .hero-stats { display: flex; gap: 36px; flex-wrap: wrap; }
+  .stat-item { display: flex; flex-direction: column; }
+  .stat-num { font-family:"Archivo Black", sans-serif;; font-size:2rem; font-weight:800; color:var(--white); line-height:1; }
+  .stat-num span { color: var(--accent); }
+  .stat-label { font-size: .78rem; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; margin-top:4px; }
+
+  /* ── SECTIONS ── */
+  section { padding: 100px 6vw; }
+  .section-header { margin-bottom: 56px; }
+  .section-eyebrow {
+    font-size: .75rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 12px;
+  }
+  h2 {
+    font-family: "Archivo Black", sans-serif; font-size: clamp(1.8rem,4vw,2.8rem);
+    font-weight: 800; color: var(--white); letter-spacing: -.02em; line-height: 1.15;
+  }
+  h2 + p { color: var(--muted); margin-top: 12px; max-width: 520px; }
+
+  /* ── ABOUT ── */
+  #about { background: var(--surface); }
+  .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: start; }
+  .about-text p { color: var(--muted); margin-bottom: 20px; line-height: 1.85; }
+  .about-highlights { display: flex; flex-direction: column; gap: 16px; margin-top: 32px; }
+  .highlight-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 18px 20px; background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); transition: border-color var(--transition), transform var(--transition);
+  }
+  .highlight-item:hover { border-color: var(--accent); transform: translateX(4px); }
+  .hi-icon { font-size: 1.4rem; flex-shrink:0; }
+  .hi-title { font-weight: 600; color: var(--white); font-size: .92rem; }
+  .hi-desc { font-size: .82rem; color: var(--muted); margin-top:2px; }
+
+  /* ── SKILLS ── */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px,1fr)); gap: 20px; }
+  .skill-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 26px 24px;
+    transition: border-color var(--transition), transform var(--transition);
+  }
+  .skill-card:hover { border-color: var(--accent); transform: translateY(-4px); }
+  .skill-card-icon { font-size: 1.8rem; margin-bottom: 14px; }
+  .skill-card-title { font-family:"Archivo Black", sans-serif;; font-weight:700; color:var(--white); margin-bottom: 14px; font-size:1rem; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 7px; }
+  .tag {
+    font-size: .72rem; font-weight: 500; padding: 4px 10px; border-radius: 100px;
+    background: rgba(79,142,247,.1); border: 1px solid rgba(79,142,247,.2); color: var(--accent);
+  }
+  .tag.purple { background: rgba(167,139,250,.1); border-color: rgba(167,139,250,.25); color: var(--accent2); }
+  .tag.green  { background: rgba(52,211,153,.1);  border-color: rgba(52,211,153,.25);  color: var(--green); }
+  .tag.gray   { background: rgba(136,146,164,.1); border-color: rgba(136,146,164,.2);  color: var(--muted); }
+
+  /* ── EXPERIENCE ── */
+  #experience { background: var(--surface); }
+  .timeline { display: flex; flex-direction: column; gap: 0; position: relative; }
+  .timeline::before {
+    content: ''; position: absolute; left: 18px; top: 8px; bottom: 8px; width: 2px;
+    background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+  }
+  .tl-item { display: flex; gap: 36px; padding-bottom: 48px; position: relative; }
+  .tl-dot {
+    flex-shrink: 0; width: 38px; height: 38px; border-radius: 50%;
+    background: var(--card); border: 2px solid var(--accent);
+    display: flex; align-items: center; justify-content: center; font-size: 1rem;
+    position: relative; z-index: 1;
+  }
+  .tl-content { flex:1; }
+  .tl-period { font-size: .75rem; color: var(--accent); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; margin-bottom:6px; }
+  .tl-role { font-family:"Archivo Black", sans-serif;; font-weight:700; color:var(--white); font-size:1.1rem; }
+  .tl-company { color: var(--muted); font-size: .88rem; margin-bottom: 14px; }
+  .tl-list { list-style:none; display:flex; flex-direction:column; gap:8px; }
+  .tl-list li { color: var(--muted); font-size: .88rem; padding-left: 16px; position: relative; line-height: 1.6; }
+  .tl-list li::before { content:'→'; position:absolute; left:0; color:var(--accent); font-size:.8rem; top:2px; }
+
+  /* ── PROJECTS ── */
+  .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px,1fr)); gap: 24px; }
+  .project-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: var(--radius);
+    overflow: hidden; display: flex; flex-direction: column;
+    transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+  }
+  .project-card:hover { border-color: var(--accent); transform: translateY(-6px); box-shadow: 0 20px 40px rgba(0,0,0,.4); }
+  .project-thumb {
+    height: 140px; display: flex; align-items: center; justify-content: center;
+    font-size: 3rem; position: relative; overflow: hidden;
+  }
+  .project-body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+  .project-type { font-size: .72rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+  .project-title { font-family:"Archivo Black", sans-serif;; font-weight:700; color:var(--white); font-size:1.05rem; margin-bottom:10px; }
+  .project-desc { color: var(--muted); font-size: .85rem; line-height: 1.7; flex:1; margin-bottom: 16px; }
+  .project-tech { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+  .project-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--accent); font-size: .82rem; font-weight: 600; text-decoration: none;
+    transition: gap var(--transition);
+  }
+  .project-link:hover { gap: 10px; }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--surface); }
+  .contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+  .contact-info p { color: var(--muted); line-height: 1.85; margin-bottom: 32px; }
+  .contact-links { display: flex; flex-direction: column; gap: 14px; }
+  .contact-link {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 20px; background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); text-decoration: none; color: var(--text);
+    font-size: .9rem; transition: border-color var(--transition), transform var(--transition);
+  }
+  .contact-link:hover { border-color: var(--accent); transform: translateX(6px); }
+  .contact-link-icon { font-size: 1.2rem; }
+  .contact-link-label { font-size: .75rem; color: var(--muted); }
+  .contact-link-value { color: var(--white); font-weight: 500; font-size: .88rem; }
+  .contact-cta-box {
+    background: linear-gradient(135deg, rgba(79,142,247,.12), rgba(167,139,250,.12));
+    border: 1px solid rgba(79,142,247,.25); border-radius: 20px;
+    padding: 48px 40px; text-align: center;
+  }
+  .contact-cta-box h3 { font-family:"Archivo Black", sans-serif;; font-weight:800; color:var(--white); font-size:1.6rem; margin-bottom:12px; }
+  .contact-cta-box p { color: var(--muted); margin-bottom: 28px; }
+  .contact-cta-box a { display:inline-block; }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 32px 6vw; border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+  }
+  footer p { color: var(--muted); font-size: .82rem; }
+  .footer-links { display: flex; gap: 20px; }
+  .footer-links a { color: var(--muted); font-size: .82rem; text-decoration: none; transition: color var(--transition); }
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .about-grid, .contact-wrapper { grid-template-columns: 1fr; gap: 40px; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .hero-stats { gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Pankaj<span>.</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:pankaj2016satna@gmail.com" class="btn-primary" style="padding:10px 20px;font-size:.85rem;">Hire Me</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">Available for freelance &amp; full-time</div>
+    <h1>WordPress<br><span class="hl">Full-Stack</span><br>Developer</h1>
+    <p class="hero-sub">
+      I build custom WordPress themes, WooCommerce stores, LMS solutions, and plugins that are fast, scalable, and pixel-perfect — from Figma to production.
+    </p>
+    <div class="hero-ctas">
+      <a href="#projects" class="btn-primary">View My Work</a>
+      <a href="#contact" class="btn-outline">Get In Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item"><span class="stat-num">2<span>+</span></span><span class="stat-label">Years Experience</span></div>
+      <div class="stat-item"><span class="stat-num">10<span>+</span></span><span class="stat-label">Projects Delivered</span></div>
+      <div class="stat-item"><span class="stat-num">5<span>+</span></span><span class="stat-label">Live Client Sites</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section-header">
+    <div class="section-eyebrow">About Me</div>
+    <h2>Building the web,<br>one theme at a time</h2>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>Hi, I'm <strong style="color:var(--white)">Pankaj Kushwaha</strong> — a WordPress Full-Stack Developer based in Satna, Madhya Pradesh. I specialize in turning design mockups into high-performance, maintainable WordPress websites.</p>
+      <p>With 2+ years of hands-on experience, I've built everything from medical professional websites and furniture e-commerce stores to LMS platforms and company portfolio sites. I'm equally comfortable working with raw PHP/HTML/CSS as I am with Elementor or WooCommerce customization.</p>
+      <p>Before specializing in WordPress, I gained solid backend fundamentals through Java full-stack development with Spring Boot and J2EE — which makes my WordPress code cleaner and more structured than most.</p>
+      <a href="mailto:pankaj2016satna@gmail.com" class="btn-primary" style="display:inline-block;margin-top:8px;">Download Resume</a>
+    </div>
+    <div class="about-highlights">
+      <div class="highlight-item">
+        <div class="hi-icon">🎨</div>
+        <div>
+          <div class="hi-title">Figma → WordPress</div>
+          <div class="hi-desc">Convert any design file into a pixel-perfect, responsive WordPress theme from scratch.</div>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="hi-icon">🛒</div>
+        <div>
+          <div class="hi-title">WooCommerce Expert</div>
+          <div class="hi-desc">Custom product pages, cart flows, checkout templates, and shop archives.</div>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="hi-icon">📚</div>
+        <div>
+          <div class="hi-title">LMS Development</div>
+          <div class="hi-desc">LearnPress integration with custom course pages, curriculum management and template overrides.</div>
+        </div>
+      </div>
+      <div class="highlight-item">
+        <div class="hi-icon">🔌</div>
+        <div>
+          <div class="hi-title">Custom Plugins & APIs</div>
+          <div class="hi-desc">Build bespoke WordPress plugins and REST API integrations for any requirement.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-header">
+    <div class="section-eyebrow">Skills & Technologies</div>
+    <h2>My Tech Stack</h2>
+    <p>Everything I use to build fast, maintainable, and beautiful web products.</p>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-card-icon">⚙️</div>
+      <div class="skill-card-title">WordPress Core</div>
+      <div class="skill-tags">
+        <span class="tag">Custom Themes</span>
+        <span class="tag">Custom Plugins</span>
+        <span class="tag">CPT</span>
+        <span class="tag">Shortcodes</span>
+        <span class="tag">Hooks & Filters</span>
+        <span class="tag">WP_Query</span>
+        <span class="tag">ACF</span>
+        <span class="tag">Template Override</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🛒</div>
+      <div class="skill-card-title">E-Commerce & LMS</div>
+      <div class="skill-tags">
+        <span class="tag purple">WooCommerce</span>
+        <span class="tag purple">LearnPress</span>
+        <span class="tag purple">Elementor</span>
+        <span class="tag purple">Shopify (Basic)</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🎨</div>
+      <div class="skill-card-title">Front-End</div>
+      <div class="skill-tags">
+        <span class="tag green">HTML5</span>
+        <span class="tag green">CSS3</span>
+        <span class="tag green">JavaScript (ES6+)</span>
+        <span class="tag green">Bootstrap</span>
+        <span class="tag green">React.js</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🖥️</div>
+      <div class="skill-card-title">Back-End & Frameworks</div>
+      <div class="skill-tags">
+        <span class="tag">PHP</span>
+        <span class="tag">Laravel (Basic)</span>
+        <span class="tag">Java</span>
+        <span class="tag">Spring Boot</span>
+        <span class="tag">Hibernate</span>
+        <span class="tag">JSP / Servlets</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🗄️</div>
+      <div class="skill-card-title">Database & Tools</div>
+      <div class="skill-tags">
+        <span class="tag gray">MySQL</span>
+        <span class="tag gray">Oracle</span>
+        <span class="tag gray">Git / GitHub</span>
+        <span class="tag gray">Postman</span>
+        <span class="tag gray">VS Code</span>
+        <span class="tag gray">MySQL Workbench</span>
+      </div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🔍</div>
+      <div class="skill-card-title">SEO & Performance</div>
+      <div class="skill-tags">
+        <span class="tag green">RankMath</span>
+        <span class="tag green">On-Page SEO</span>
+        <span class="tag green">Page Speed Optimization</span>
+        <span class="tag green">Responsive Design</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="section-header">
+    <div class="section-eyebrow">Work History</div>
+    <h2>Experience</h2>
+  </div>
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-dot">💼</div>
+      <div class="tl-content">
+        <div class="tl-period">Oct 2024 – Present</div>
+        <div class="tl-role">WordPress Developer</div>
+        <div class="tl-company">Crystaltech Services Private Limited</div>
+        <ul class="tl-list">
+          <li>Developed custom WordPress themes from scratch by converting Figma designs into pixel-perfect, fully functional websites.</li>
+          <li>Built Custom Post Types, taxonomies, and shortcodes; developed custom plugins to extend platform capabilities.</li>
+          <li>Utilized Advanced Custom Fields (ACF) with repeater fields and flexible content layouts for dynamic content management.</li>
+          <li>Developed WooCommerce e-commerce solutions with customized product pages, cart flows, and checkout templates.</li>
+          <li>Implemented LearnPress LMS with custom course pages, curriculum management, and core template overrides.</li>
+          <li>Used Elementor for rapid front-end development; managed codebases using Git & GitHub.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">☕</div>
+      <div class="tl-content">
+        <div class="tl-period">Jan 2024 – Sep 2024</div>
+        <div class="tl-role">Java Full Stack Intern</div>
+        <div class="tl-company">Webearn Solution Pvt Ltd</div>
+        <ul class="tl-list">
+          <li>Developed enterprise applications using J2EE — Servlets and JSP for server-side programming.</li>
+          <li>Worked with Spring, Spring MVC, Spring Boot, Hibernate, and JPA for backend development.</li>
+          <li>Built maintainable codebases using OOP concepts, Multithreading, and Java Collections Framework.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-dot">🌐</div>
+      <div class="tl-content">
+        <div class="tl-period">Mar 2022 – Oct 2022</div>
+        <div class="tl-role">Web Developer Intern</div>
+        <div class="tl-company">1Stop Company</div>
+        <ul class="tl-list">
+          <li>Contributed to a Job Portal website using HTML, CSS, JavaScript, and Bootstrap.</li>
+          <li>Managed backend logic and database operations with PHP and MySQL.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header">
+    <div class="section-eyebrow">My Work</div>
+    <h2>Featured Projects</h2>
+    <p>Real client sites and personal projects — all built with clean, maintainable code.</p>
+  </div>
+  <div class="projects-grid">
+
+    <!-- Project 1: The MetaByte -->
+    <div class="project-card">
+      <div class="project-thumb" style="background:linear-gradient(135deg,#0f172a,#1e3a5f);">🌐</div>
+      <div class="project-body">
+        <div class="project-type">Company Website</div>
+        <div class="project-title">The MetaByte</div>
+        <div class="project-desc">Full company website for a web agency serving 1,000+ active clients across 15 countries. Custom WordPress theme built from scratch using Elementor, with dynamic portfolio using ACF and Custom Post Types. Includes animated marquees, smooth scroll effects, and full SEO optimization.</div>
+        <div class="project-tech">
+          <span class="tag">WordPress</span>
+          <span class="tag">Elementor</span>
+          <span class="tag">ACF</span>
+          <span class="tag purple">Custom Theme</span>
+          <span class="tag green">SEO</span>
+        </div>
+        <a href="https://themetabyte.com" target="_blank" class="project-link">Visit Site →</a>
+      </div>
+    </div>
+
+    <!-- Project 2: Dr Raina Rathore -->
+    <div class="project-card">
+      <div class="project-thumb" style="background:linear-gradient(135deg,#0d1f2d,#1a4060);">🏥</div>
+      <div class="project-body">
+        <div class="project-type">Medical / Healthcare Website</div>
+        <div class="project-title">Dr. Raina Rathore — ENT Specialist</div>
+        <div class="project-desc">Professional healthcare website for a Gold Medalist ENT Specialist Surgeon in Ghaziabad with 15+ years of experience. Multi-service structure covering Ear, Nose & Throat treatments, appointment booking, patient testimonials, video galleries, and local SEO for Morris County patients.</div>
+        <div class="project-tech">
+          <span class="tag">WordPress</span>
+          <span class="tag">Elementor</span>
+          <span class="tag">Custom Theme</span>
+          <span class="tag purple">ACF</span>
+          <span class="tag green">Local SEO</span>
+        </div>
+        <a href="https://drrainarathore.com" target="_blank" class="project-link">Visit Site →</a>
+      </div>
+    </div>
+
+    <!-- Project 3: Radiology Center at Harding -->
+    <div class="project-card">
+      <div class="project-thumb" style="background:linear-gradient(135deg,#0a1628,#1c3454);">🩻</div>
+      <div class="project-body">
+        <div class="project-type">Medical Imaging Website</div>
+        <div class="project-title">Radiology Center at Harding</div>
+        <div class="project-desc">Medical imaging website for a radiology center in Morris County, NJ offering MRI, CT Scans, 3D Mammography, and Whole-Body MRI. Custom appointment booking flow, accessible layouts for diverse patients, and local SEO with Google Maps integration.</div>
+        <div class="project-tech">
+          <span class="tag">WordPress</span>
+          <span class="tag">Elementor</span>
+          <span class="tag">Custom Theme</span>
+          <span class="tag purple">ACF</span>
+          <span class="tag green">Local SEO</span>
+        </div>
+        <a href="https://devshowcase.io" target="_blank" class="project-link">Visit Site →</a>
+      </div>
+    </div>
+
+    <!-- Project 4: SSV -->
+    <div class="project-card">
+      <div class="project-thumb" style="background:linear-gradient(135deg,#150d27,#2e1a5e);">📄</div>
+      <div class="project-body">
+        <div class="project-type">Dynamic WordPress Website</div>
+        <div class="project-title">SSV — ACF & Custom Pagination</div>
+        <div class="project-desc">Built a complete custom WordPress theme from scratch with ACF managing all dynamic content — custom post types, flexible content layouts, and repeater fields. Custom pagination for archive pages using WordPress query functions and shortcodes.</div>
+        <div class="project-tech">
+          <span class="tag">WordPress</span>
+          <span class="tag">ACF</span>
+          <span class="tag">CPT</span>
+          <span class="tag purple">Shortcodes</span>
+          <span class="tag green">WP_Query</span>
+        </div>
+        <a href="https://ssv.devshowcase.io" target="_blank" class="project-link">Visit Site →</a>
+      </div>
+    </div>
+
+    <!-- Project 5: Mainsofa -->
+    <div class="project-card">
+      <div class="project-thumb" style="background:linear-gradient(135deg,#1a0a08,#5c2218);">🛋️</div>
+      <div class="project-body">
+        <div class="project-type">E-Commerce Store</div>
+        <div class="project-title">Mainsofa — Furniture Store (Denmark)</div>
+        <div class="project-desc">Complete furniture e-commerce store for a Denmark-based client. Customized WooCommerce templates for product pages, cart, checkout, and shop archive. Added custom CSS and JavaScript for enhanced UI/UX, animations, and interactive product displays.</div>
+        <div class="project-tech">
+          <span class="tag">WordPress</span>
+          <span class="tag purple">WooCommerce</span>
+          <span class="tag">Elementor</span>
+          <span class="tag green">Custom PHP</span>
+          <span class="tag">Shortcodes</span>
+        </div>
+        <a href="https://mainsofa.dk" target="_blank" class="project-link">Visit Site →</a>
+      </div>
+    </div>
+
+    <!-- Project 6: Exam System -->
+    <div class="project-card">
+      <div class="project-thumb" style="background:linear-gradient(135deg,#0d1f10,#1a4020);">📝</div>
+      <div class="project-body">
+        <div class="project-type">Java Web Application</div>
+        <div class="project-title">Online Exam Paper Generation System</div>
+        <div class="project-desc">Responsive exam paper generation system with Java Servlets for server-side logic and JSP for dynamic view rendering. Designed a clean UI for managing question banks and generating papers dynamically.</div>
+        <div class="project-tech">
+          <span class="tag green">Java Servlets</span>
+          <span class="tag green">JSP</span>
+          <span class="tag">MySQL</span>
+          <span class="tag gray">HTML / CSS / JS</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header">
+    <div class="section-eyebrow">Get In Touch</div>
+    <h2>Let's Work Together</h2>
+  </div>
+  <div class="contact-wrapper">
+    <div class="contact-info">
+      <p>I'm always open to new freelance projects, full-time opportunities, or just a conversation about web development. Whether you need a custom WordPress theme, a WooCommerce store, or a complete website — I'd love to help.</p>
+      <div class="contact-links">
+        <a href="mailto:pankaj2016satna@gmail.com" class="contact-link">
+          <span class="contact-link-icon">✉️</span>
+          <div>
+            <div class="contact-link-label">Email</div>
+            <div class="contact-link-value">pankaj2016satna@gmail.com</div>
+          </div>
+        </a>
+        <a href="tel:+919179067153" class="contact-link">
+          <span class="contact-link-icon">📞</span>
+          <div>
+            <div class="contact-link-label">Phone</div>
+            <div class="contact-link-value">+91 9179067153</div>
+          </div>
+        </a>
+        <a href="https://linkedin.com" target="_blank" class="contact-link">
+          <span class="contact-link-icon">💼</span>
+          <div>
+            <div class="contact-link-label">LinkedIn</div>
+            <div class="contact-link-value">linkedin.com/in/pankajkushwaha</div>
+          </div>
+        </a>
+        <a href="https://github.com" target="_blank" class="contact-link">
+          <span class="contact-link-icon">🐙</span>
+          <div>
+            <div class="contact-link-label">GitHub</div>
+            <div class="contact-link-value">github.com/pankajkushwaha</div>
+          </div>
+        </a>
+        <div class="contact-link" style="cursor:default;">
+          <span class="contact-link-icon">📍</span>
+          <div>
+            <div class="contact-link-label">Location</div>
+            <div class="contact-link-value">Satna, Madhya Pradesh, India</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-cta-box">
+      <h3>Ready to build something great?</h3>
+      <p>Send me a message and let's discuss your project requirements, timeline, and budget.</p>
+      <a href="mailto:pankaj2016satna@gmail.com" class="btn-primary">Send a Message</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Pankaj Kushwaha. Built with ❤️ and PHP.</p>
+  <div class="footer-links">
+    <a href="#hero">Back to Top</a>
+    <a href="mailto:pankaj2016satna@gmail.com">Email</a>
+    <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+    <a href="https://github.com" target="_blank">GitHub</a>
+  </div>
+</footer>
+
+</body>
+</html>
